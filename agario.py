@@ -9,7 +9,7 @@ name_of_player = input("What is your name?:  ")
 pygame.init()
 pygame.font.init()
 
-# Set screen size an properties
+# Set screen size properties
 width_screen = 1000
 height_screen = 1000
 screen = pygame.display.set_mode((width_screen, height_screen))
@@ -76,9 +76,10 @@ class Food:
 
 
 class Player:
-    """All atributes of the player will be coded here"""
+    """All attributes of the player will be coded here"""
     def __init__(self):
         """This will generate all the standard parameters of the player"""
+        self.player_speed = 25
         self.radius = 20
         self.new_radius_player = 20
         self.x_coordinate = random.randint(self.radius, width_screen-self.radius)
@@ -166,35 +167,15 @@ class Player:
 
     def move(self):
         x_position_cursor, y_position_cursor = pygame.mouse.get_pos()
-        player_speed = max(minimum_speed, coefficient*maximum_speed/math.sqrt(self.radius))
-        self.player_speed = player_speed
+        self.player_speed = max([minimum_speed, coefficient*maximum_speed/math.sqrt(self.radius)])
 
-        if x_position_cursor - width_screen/2 == 0 or y_position_cursor - height_screen/2 == 0:
-            x_position_cursor += 1
-            y_position_cursor += 1
+        # Subtract the position of the player from the position of the cursor to obtain a vector that indicates the
+        # direction of movement
+        move_vector = [x_position_cursor - self.x_coordinate, y_position_cursor - self.y_coordinate]
+        move_vector_magnitude = math.sqrt(move_vector[0]**2 + move_vector[1]**2)
 
-        if x_position_cursor < width_screen/2:
-            speed_y = player_speed * -1 * math.sin(math.atan((y_position_cursor - height_screen/2)/(x_position_cursor - width_screen/2)))
-            speed_x = player_speed * -1 * math.cos(math.atan((y_position_cursor - height_screen/2)/(x_position_cursor - width_screen/2)))
-        elif x_position_cursor > width_screen/2:
-            speed_y = player_speed * math.sin(math.atan((y_position_cursor - height_screen/2)/(x_position_cursor - width_screen/2)))
-            speed_x = player_speed * math.cos(math.atan((y_position_cursor - height_screen/2)/(x_position_cursor - width_screen/2)))
-
-        if self.x_coordinate < 0:
-            speed_x = 0
-            self.x_coordinate += 1
-        elif self.x_coordinate > width_screen:
-            speed_x = 0
-            self.x_coordinate -= 1
-        elif self.y_coordinate < 0:
-            speed_y = 0
-            self.y_coordinate += 1
-        elif self.x_coordinate > height_screen:
-            speed_y = 0
-            self.y_coordinate -= 1
-
-        self.x_coordinate += speed_x*dt
-        self.y_coordinate += speed_y*dt
+        self.x_coordinate += self.player_speed * move_vector[0] / move_vector_magnitude * dt
+        self.y_coordinate += self.player_speed * move_vector[1] / move_vector_magnitude * dt
 
     def feed_players(self):
         pass
@@ -312,7 +293,7 @@ class Bot:
         self.new_radius()
         self.move()
 
-# THE ACTUAL CODE
+'''The code starts here'''
 player1 = Player()
 bot1 = Bot()
 bot2 = Bot()
