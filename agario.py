@@ -1,5 +1,4 @@
 # AGAR.IO
-import unittest
 import pygame
 import random
 import math
@@ -13,12 +12,12 @@ pygame.font.init()
 # Set screen size an properties
 width_screen = 1000
 height_screen = 1000
-screen = pygame.display.set_mode((width_screen,height_screen))
+screen = pygame.display.set_mode((width_screen, height_screen))
 pygame.display.set_caption("Agar Python")
 
 # text for game over
 used_font_game_over = pygame.font.SysFont('freesansbold.ttf', 150)
-text_surface = used_font_game_over.render('GAME OVER', True, (0,0,0))
+text_surface = used_font_game_over.render('GAME OVER', True, (0, 0, 0))
 text_rect = text_surface.get_rect()
 text_rect.center = ((width_screen/2), (height_screen/2))
 
@@ -50,7 +49,7 @@ food_y_coordinate = []
 
 x_player = width_screen/2
 y_player = height_screen/2
-position_player = [int(x_player),int(y_player)]
+position_player = [int(x_player), int(y_player)]
 
 minimum_speed = 25
 maximum_speed = 600
@@ -61,10 +60,10 @@ coefficient = 1.1
 class Food:
     """Generates food particles and the choose a random position to deploy them, code also deploys them"""
     def __init__(self):
-        """This will generate a random x position, y position, collor and radius for the food"""
-        self.radius = random.randint(5,8)
-        self.x_coordinate_food = random.randint(self.radius,width_screen-self.radius)
-        self.y_coordinate_food = random.randint(self.radius,height_screen-self.radius)
+        """This will generate a random x position, y position, color and radius for the food"""
+        self.radius = random.randint(5, 8)
+        self.x_coordinate_food = random.randint(self.radius, width_screen-self.radius)
+        self.y_coordinate_food = random.randint(self.radius, height_screen-self.radius)
 
         self.location = [self.x_coordinate_food, self.y_coordinate_food]
         self.colour = random.choice(colors)
@@ -77,13 +76,13 @@ class Food:
 
 
 class Player:
-    "All atributes of the player will be coded here"
+    """All atributes of the player will be coded here"""
     def __init__(self):
-        "This will generate all the standard parameters of the player"
+        """This will generate all the standard parameters of the player"""
         self.radius = 20
         self.new_radius_player = 20
-        self.x_coordinate = random.randint(self.radius,width_screen-self.radius)
-        self.y_coordinate = random.randint(self.radius,height_screen-self.radius)
+        self.x_coordinate = random.randint(self.radius, width_screen-self.radius)
+        self.y_coordinate = random.randint(self.radius, height_screen-self.radius)
 
         self.location = [self.x_coordinate, self.y_coordinate]
         self.colour = random.choice(colors)
@@ -117,9 +116,9 @@ class Player:
 
             if distance <= self.radius:
                 area_bot = math.pi * bot1.radius ** 2
-                area_player= math.pi * self.new_radius_player ** 2
+                area_player = math.pi * self.new_radius_player ** 2
                 new_area_player = area_player + area_bot
-                print(str(area_bot) + ' + ' + str(area_player) + ' = ' +str(new_area_player))
+                print(str(area_bot) + ' + ' + str(area_player) + ' = ' + str(new_area_player))
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot1 = True
@@ -132,7 +131,7 @@ class Player:
                 area_bot = math.pi * bot2.radius ** 2
                 area_player= math.pi * self.new_radius_player ** 2
                 new_area_player = area_player + area_bot
-                print(str(area_bot) + ' + ' + str(area_player) + ' = ' +str(new_area_player))
+                print(str(area_bot) + ' + ' + str(area_player) + ' = ' + str(new_area_player))
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot2 = True
@@ -145,7 +144,7 @@ class Player:
                 area_bot = math.pi * bot3.radius ** 2
                 area_player= math.pi * self.new_radius_player ** 2
                 new_area_player = area_player + area_bot
-                print(str(area_bot) + ' + ' + str(area_player) + ' = ' +str(new_area_player))
+                print(str(area_bot) + ' + ' + str(area_player) + ' = ' + str(new_area_player))
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot3 = True
@@ -158,7 +157,7 @@ class Player:
                 area_bot = math.pi * bot4.radius ** 2
                 area_player= math.pi * self.new_radius_player ** 2
                 new_area_player = area_player + area_bot
-                print(str(area_bot) + ' + ' + str(area_player) + ' = ' +str(new_area_player))
+                print(str(area_bot) + ' + ' + str(area_player) + ' = ' + str(new_area_player))
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot4 = True
@@ -217,8 +216,8 @@ class Bot:
     def __init__(self):
         self.radius = random.randint(10, player1.radius + 5)
         self.new_radius_bot = self.radius
-        self.x_coordinate = random.randint(self.radius,width_screen-self.radius)
-        self.y_coordinate = random.randint(self.radius,height_screen-self.radius)
+        self.x_coordinate = random.randint(self.radius, width_screen-self.radius)
+        self.y_coordinate = random.randint(self.radius, height_screen-self.radius)
 
         self.location = [self.x_coordinate, self.y_coordinate]
         self.colour = random.choice(colors)
@@ -229,7 +228,7 @@ class Bot:
 
         self.bot_radius = []
         self.bot_x_coordinate = []
-        self.bot_y_coordinate =[]
+        self.bot_y_coordinate = []
         self.bot_location = []
         self.bot_colour = []
 
@@ -340,20 +339,20 @@ while True:
     bot4.update_position()
 
     pygame.draw.circle(screen, player1.colour, (int(player1.x_coordinate), int(player1.y_coordinate)), player1.radius)
-    pygame.draw.circle(screen, player1.colour1, (int(player1.x_coordinate), int(player1.y_coordinate)), int(6/7* player1.radius))
+    pygame.draw.circle(screen, player1.colour1, (int(player1.x_coordinate), int(player1.y_coordinate)), int(6/7 * player1.radius))
 
     if bot1.radius != 0:
         pygame.draw.circle(screen, bot1.colour, (int(bot1.x_coordinate), int(bot1.y_coordinate)), bot1.radius)
-        pygame.draw.circle(screen, bot1.colour1, (int(bot1.x_coordinate), int(bot1.y_coordinate)), int(6/7* bot1.radius))
+        pygame.draw.circle(screen, bot1.colour1, (int(bot1.x_coordinate), int(bot1.y_coordinate)), int(6/7 * bot1.radius))
     if bot2.radius != 0:
         pygame.draw.circle(screen, bot2.colour, (int(bot2.x_coordinate), int(bot2.y_coordinate)), bot2.radius)
-        pygame.draw.circle(screen, bot2.colour1, (int(bot2.x_coordinate), int(bot2.y_coordinate)), int(6/7* bot2.radius))
+        pygame.draw.circle(screen, bot2.colour1, (int(bot2.x_coordinate), int(bot2.y_coordinate)), int(6/7 * bot2.radius))
     if bot3.radius != 0:
         pygame.draw.circle(screen, bot3.colour, (int(bot3.x_coordinate), int(bot3.y_coordinate)), bot3.radius)
-        pygame.draw.circle(screen, bot3.colour1, (int(bot3.x_coordinate), int(bot3.y_coordinate)), int(6/7* bot3.radius))
+        pygame.draw.circle(screen, bot3.colour1, (int(bot3.x_coordinate), int(bot3.y_coordinate)), int(6/7 * bot3.radius))
     if bot4.radius != 0:
         pygame.draw.circle(screen, bot4.colour, (int(bot4.x_coordinate), int(bot4.y_coordinate)), bot4.radius)
-        pygame.draw.circle(screen, bot4.colour1, (int(bot4.x_coordinate), int(bot4.y_coordinate)), int(6/7* bot4.radius))
+        pygame.draw.circle(screen, bot4.colour1, (int(bot4.x_coordinate), int(bot4.y_coordinate)), int(6/7 * bot4.radius))
 
     while player1.new_bot1:
         bot1 = Bot()
@@ -378,7 +377,7 @@ while True:
 
     # Text for name
     used_font_name = pygame.font.SysFont('freesansbold.ttf', int(3.5*player1.radius/len(name_of_player)))
-    text_name = used_font_name.render(name_of_player, True, (0,0,0))
+    text_name = used_font_name.render(name_of_player, True, (0, 0, 0))
     text_rect_name = text_name.get_rect()
     text_rect_name.center = (player1.x_coordinate, player1.y_coordinate)
     screen.blit(text_name, text_rect_name)
