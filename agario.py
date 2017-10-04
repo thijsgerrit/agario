@@ -6,49 +6,49 @@ import math
 
 name_of_player = input("What is your name?:  ")
 
-#initialize all imported pygame modules + text for game over
+# initialize all imported pygame modules + text for game over
 pygame.init()
 pygame.font.init()
 
-#Set screen size an properties
+# Set screen size an properties
 width_screen = 1000
 height_screen = 1000
 screen = pygame.display.set_mode((width_screen,height_screen))
 pygame.display.set_caption("Agar Python")
 
-#Text for game over
+# text for game over
 used_font_game_over = pygame.font.SysFont('freesansbold.ttf', 150)
 text_surface = used_font_game_over.render('GAME OVER', True, (0,0,0))
 text_rect = text_surface.get_rect()
 text_rect.center = ((width_screen/2), (height_screen/2))
 
 
-#Generating random collors for food
-collors = []
+# Generating random colors for food
+colors = []
 i = 0
 while i < 100:
-    red_colour = random.randint(0,255)
-    green_colour = random.randint(0,255)
-    blue_colour = random.randint(0,255)
-    collors.append((red_colour,green_colour,blue_colour))
+    red_colour = random.randint(0, 255)
+    green_colour = random.randint(0, 255)
+    blue_colour = random.randint(0, 255)
+    colors.append((red_colour, green_colour, blue_colour))
     i += 1
 
-#Time counter
-t0 = float(pygame.time.get_ticks()) /1000.
-tnow = float(pygame.time.get_ticks()) /1000.
+# Time counter
+t0 = float(pygame.time.get_ticks()) / 1000.
+tnow = float(pygame.time.get_ticks()) / 1000.
 
 # VARIABLE
 begin_food_list = []
-colour_player = random.choice(collors)
-colour_background = (255,255,255)
-colour_text = (0,0,0)
+colour_player = random.choice(colors)
+colour_background = (255, 255, 255)
+colour_text = (0, 0, 0)
 food_radius = []
 food_location = []
 food_colour = []
 food_x_coordinate = []
 food_y_coordinate = []
 
-x_player =  width_screen/2
+x_player = width_screen/2
 y_player = height_screen/2
 position_player = [int(x_player),int(y_player)]
 
@@ -67,14 +67,13 @@ class Food:
         self.y_coordinate_food = random.randint(self.radius,height_screen-self.radius)
 
         self.location = [self.x_coordinate_food, self.y_coordinate_food]
-        self.colour = random.choice(collors)
+        self.colour = random.choice(colors)
 
         food_radius.append(self.radius)
         food_x_coordinate.append(self.x_coordinate_food)
         food_y_coordinate.append(self.y_coordinate_food)
         food_location.append(self.location)
         food_colour.append(self.colour)
-
 
 
 class Player:
@@ -87,8 +86,8 @@ class Player:
         self.y_coordinate = random.randint(self.radius,height_screen-self.radius)
 
         self.location = [self.x_coordinate, self.y_coordinate]
-        self.colour = random.choice(collors)
-        self.colour1 = random.choice(collors)
+        self.colour = random.choice(colors)
+        self.colour1 = random.choice(colors)
         self.new_bot1, self.new_bot2, self.new_bot3, self.new_bot4 = False, False, False, False
 
     def new_radius(self):
@@ -164,7 +163,7 @@ class Player:
                 self.radius = int(self.new_radius_player)
                 self.new_bot4 = True
 
-#NOG AANPASSEN, KLOPT NOG NIET MET DE ZIJKANTEN!!
+# NOG AANPASSEN, KLOPT NOG NIET MET DE ZIJKANTEN!!
 
     def move(self):
         x_position_cursor, y_position_cursor = pygame.mouse.get_pos()
@@ -213,7 +212,6 @@ class Player:
         self.collision_explosion()
 
 
-
 class Bot:
     """This will generate random bots who will fight you in the game"""
     def __init__(self):
@@ -223,8 +221,8 @@ class Bot:
         self.y_coordinate = random.randint(self.radius,height_screen-self.radius)
 
         self.location = [self.x_coordinate, self.y_coordinate]
-        self.colour = random.choice(collors)
-        self.colour1 = random.choice(collors)
+        self.colour = random.choice(colors)
+        self.colour1 = random.choice(colors)
         self.speed_bot_y = 0
         self.speed_bot_x = 0
         self.angle = random.random() * 2 * math.pi
@@ -241,7 +239,6 @@ class Bot:
         self.bot_location.append(self.location)
         self.bot_colour.append(self.colour)
         self.game_over = False
-
 
     def new_radius(self):
         for i in range(len(food_location)):
@@ -275,8 +272,7 @@ class Bot:
                 screen.blit(text_surface, text_rect)
                 self.game_over = True
 
-
-    ##WERKT NIET HELEMAAL MET OMHEINING, ligt aan verwijderd deel
+    # WERKT NIET HELEMAAL MET OMHEINING, ligt aan verwijderd deel
     def move(self):
         bot_speed = max(minimum_speed, coefficient*maximum_speed/math.sqrt(self.radius))
         if abs(self.x_coordinate - player1.x_coordinate) < 200 and abs(self.y_coordinate - player1.y_coordinate) < 200 and self.radius > (player1.radius + 5):
@@ -317,8 +313,6 @@ class Bot:
         self.new_radius()
         self.move()
 
-
-
 # THE ACTUAL CODE
 player1 = Player()
 bot1 = Bot()
@@ -332,8 +326,7 @@ while True:
     screen.fill(colour_background)
     pygame.event.pump()
 
-
-    #Making of the food particles in the beginning and when playing the game
+    # Making of the food particles in the beginning and when playing the game
     while len(food_location) < 500:
         food = Food()
 
@@ -374,8 +367,6 @@ while True:
     while player1.new_bot4:
         bot4 = Bot()
         player1.new_bot4 = False
-
-
     while bot1.game_over:
         pygame.display.update()
     while bot2.game_over:
@@ -385,15 +376,11 @@ while True:
     while bot4.game_over:
         pygame.display.update()
 
-    #Text for name
+    # Text for name
     used_font_name = pygame.font.SysFont('freesansbold.ttf', int(3.5*player1.radius/len(name_of_player)))
     text_name = used_font_name.render(name_of_player, True, (0,0,0))
     text_rect_name = text_name.get_rect()
     text_rect_name.center = (player1.x_coordinate, player1.y_coordinate)
     screen.blit(text_name, text_rect_name)
 
-
-
     pygame.display.flip()
-
-
