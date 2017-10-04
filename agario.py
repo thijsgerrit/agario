@@ -23,7 +23,7 @@ text_rect = text_surface.get_rect()
 text_rect.center = ((width_screen/2), (height_screen/2))
 
 
-#Generating random collors for food
+#Generating random collors for food and players
 collors = []
 i = 0
 while i < 100:
@@ -54,8 +54,12 @@ position_player = [int(x_player),int(y_player)]
 
 minimum_speed = 25
 maximum_speed = 600
-maxdt = 0.002
+maxdt = 0.005
 coefficient = 1.1
+
+
+
+
 
 
 class Food:
@@ -77,12 +81,13 @@ class Food:
 
 
 
+
 class Player:
     "All atributes of the player will be coded here"
     def __init__(self):
         "This will generate all the standard parameters of the player"
         self.radius = 20
-        self.new_radius_player = 20
+        self.new_radius_player = self.radius
         self.x_coordinate = random.randint(self.radius,width_screen-self.radius)
         self.y_coordinate = random.randint(self.radius,height_screen-self.radius)
 
@@ -124,6 +129,7 @@ class Player:
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot1 = True
+
         if bot2.radius + 5 < self.radius:
             x_distance = bot2.x_coordinate - self.x_coordinate
             y_distance = bot2.y_coordinate - self.y_coordinate
@@ -137,6 +143,7 @@ class Player:
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot2 = True
+
         if bot3.radius + 5 < self.radius:
             x_distance = bot3.x_coordinate - self.x_coordinate
             y_distance = bot3.y_coordinate - self.y_coordinate
@@ -150,6 +157,7 @@ class Player:
                 self.new_radius_player = math.sqrt(new_area_player/math.pi)
                 self.radius = int(self.new_radius_player)
                 self.new_bot3 = True
+
         if bot4.radius + 5 < self.radius:
             x_distance = bot4.x_coordinate - self.x_coordinate
             y_distance = bot4.y_coordinate - self.y_coordinate
@@ -164,7 +172,6 @@ class Player:
                 self.radius = int(self.new_radius_player)
                 self.new_bot4 = True
 
-#NOG AANPASSEN, KLOPT NOG NIET MET DE ZIJKANTEN!!
 
     def move(self):
         x_position_cursor, y_position_cursor = pygame.mouse.get_pos()
@@ -182,16 +189,16 @@ class Player:
             speed_y = player_speed * math.sin(math.atan((y_position_cursor - height_screen/2)/(x_position_cursor - width_screen/2)))
             speed_x = player_speed * math.cos(math.atan((y_position_cursor - height_screen/2)/(x_position_cursor - width_screen/2)))
 
-        if self.x_coordinate < 0:
+        if self.x_coordinate - self.radius < 0:
             speed_x = 0
             self.x_coordinate += 1
-        elif self.x_coordinate > width_screen:
+        elif self.x_coordinate + self.radius > width_screen:
             speed_x = 0
             self.x_coordinate -= 1
-        elif self.y_coordinate < 0:
+        elif self.y_coordinate - self.radius < 0:
             speed_y = 0
             self.y_coordinate += 1
-        elif self.x_coordinate > height_screen:
+        elif self.y_coordinate + self.radius > height_screen:
             speed_y = 0
             self.y_coordinate -= 1
 
@@ -211,6 +218,8 @@ class Player:
         self.new_radius()
         self.move()
         self.collision_explosion()
+
+
 
 
 
@@ -316,6 +325,14 @@ class Bot:
     def update_position(self):
         self.new_radius()
         self.move()
+
+
+
+
+def bot_eats_bot():
+    """Function for the bots if they want to eat each other"""
+
+
 
 
 
